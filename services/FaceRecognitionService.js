@@ -1,5 +1,3 @@
-// File: library-system/services/faceRecognitionService.js
-
 const faceapi = require('face-api.js');
 const { Canvas, Image } = require('canvas');
 const fs = require('fs-extra');
