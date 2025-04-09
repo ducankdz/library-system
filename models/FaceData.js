@@ -1,4 +1,3 @@
-// File: library-system/models/FaceData.js
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 const User = require('./User');
