@@ -13,6 +13,7 @@ const { setupSocketIO } = require('./socket');
 // Import controllers
 const attendanceController = require('./controllers/attendanceController');
 const loanController = require('./controllers/loanController');
+const { loadModels } = require('./utils/faceCompare');
 
 // Cấu hình dotenv
 dotenv.config();
@@ -22,13 +23,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST']
   }
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,7 +48,7 @@ initializeDatabase();
 setupSocketIO(io);
 
 // Thiết lập MQTT
-// const mqttClient = setupMQTT(io);
+const mqttClient = setupMQTT(io);
 
 // Thiết lập Socket.IO cho các controller
 attendanceController.setIo(io);
@@ -68,12 +72,15 @@ app.use('/api/loans', loanRoutes);
 app.use('/api/users', userRoutes);
 
 // Định nghĩa port
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Khởi động server
-server.listen(PORT, () => {
-  console.log(`Server đang chạy trên port ${PORT}`);
+loadModels().then(() => {
+  server.listen(PORT, () => {
+    console.log(`Server đang chạy trên port ${PORT}`);
+  });
 });
 
+
 // Xuất các đối tượng cần thiết
-module.exports = { app, io }; //mqttClient 
+module.exports = { app, io , mqttClient}; //mqttClient 

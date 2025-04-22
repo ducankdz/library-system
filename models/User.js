@@ -29,6 +29,9 @@ const User = sequelize.define('User', {
   address: {
     type: DataTypes.STRING
   },
+  image: {
+    type: DataTypes.STRING
+  },
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true

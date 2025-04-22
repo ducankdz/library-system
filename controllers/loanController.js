@@ -43,6 +43,7 @@ exports.processUserCardScan = async (req, res) => {
         id: loan.id,
         bookId: loan.bookId,
         bookTitle: loan.Book.title,
+        author: loan.Book.author,
         issueDate: loan.issueDate,
         dueDate: loan.dueDate
       }))

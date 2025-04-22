@@ -3,73 +3,6 @@ const userService = require('./userService');
 const cardService = require('./cardService');
 
 /**
- * Lấy tất cả lịch sử điểm danh
- * @returns {Promise<Array>} Danh sách điểm danh
- */
-const getAllAttendances = async () => {
-  try {
-    return await Attendance.findAll({
-      include: [{ model: User }],
-      order: [['createdAt', 'DESC']]
-    });
-  } catch (error) {
-    throw new Error(`Lỗi khi lấy danh sách điểm danh: ${error.message}`);
-  }
-};
-
-/**
- * Lấy lịch sử điểm danh theo ID
- * @param {number} id - ID của bản ghi điểm danh
- * @returns {Promise<Object>} Thông tin điểm danh
- */
-const getAttendanceById = async (id) => {
-  try {
-    const attendance = await Attendance.findByPk(id, {
-      include: [{ model: User }]
-    });
-    if (!attendance) {
-      throw new Error('Không tìm thấy bản ghi điểm danh');
-    }
-    return attendance;
-  } catch (error) {
-    throw new Error(`Lỗi khi lấy thông tin điểm danh: ${error.message}`);
-  }
-};
-
-/**
- * Lấy lịch sử điểm danh của một người dùng
- * @param {number} userId - ID của người dùng
- * @returns {Promise<Array>} Danh sách điểm danh
- */
-const getAttendancesByUserId = async (userId) => {
-  try {
-    return await Attendance.findAll({
-      where: { userId },
-      include: [{ model: User }],
-      order: [['createdAt', 'DESC']]
-    });
-  } catch (error) {
-    throw new Error(`Lỗi khi lấy lịch sử điểm danh của người dùng: ${error.message}`);
-  }
-};
-
-/**
- * Lấy bản ghi điểm danh mới nhất của một người dùng
- * @param {number} userId - ID của người dùng
- * @returns {Promise<Object>} Thông tin điểm danh
- */
-const getLatestAttendanceByUserId = async (userId) => {
-  try {
-    return await Attendance.findOne({
-      where: { userId },
-      order: [['createdAt', 'DESC']]
-    });
-  } catch (error) {
-    throw new Error(`Lỗi khi lấy bản ghi điểm danh mới nhất: ${error.message}`);
-  }
-};
-
-/**
  * Xử lý quét thẻ RFID
  * @param {string} cardId - ID của thẻ RFID
  * @returns {Promise<Object>} Thông tin người dùng
@@ -151,10 +84,6 @@ const processFaceAuth = async (userId, faceVerified = true) => {
 };
 
 module.exports = {
-  getAllAttendances,
-  getAttendanceById,
-  getAttendancesByUserId,
-  getLatestAttendanceByUserId,
   processCardScan,
   processFaceAuth
-}; 
+};

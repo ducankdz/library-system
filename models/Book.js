@@ -15,10 +15,6 @@ const Book = sequelize.define('Book', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  isbn: {
-    type: DataTypes.STRING,
-    unique: true
-  },
   rfidTag: {
     type: DataTypes.STRING,
     unique: true

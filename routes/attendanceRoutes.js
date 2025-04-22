@@ -8,4 +8,6 @@ router.post('/card-scan', attendanceController.processCardScan);
 // Xử lý xác thực khuôn mặt và check-in/check-out
 router.post('/face-auth', attendanceController.processFaceAuth);
 
+router.get('/attendances', attendanceController.getAttendanceList);
+
 module.exports = router; 
